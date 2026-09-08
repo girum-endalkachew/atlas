@@ -1,3 +1,5 @@
+"use client";
+
 import { Mountain } from "lucide-react";
 import Link from "next/link";
 
