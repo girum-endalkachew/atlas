@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   darkMode: "class",
@@ -50,10 +51,15 @@ const config: Config = {
         },
       },
       fontFamily: {
-        mono: ["JetBrains Mono", "Geist Mono", "Fira Code", "monospace"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("light-mode", ".light-mode &");
+    }),
+  ],
 };
 export default config;
