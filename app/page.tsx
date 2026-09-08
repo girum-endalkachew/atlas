@@ -17,7 +17,7 @@ const pillars = [
   {
     icon: Crosshair,
     title: "Find the real cause",
-    desc: "Root cause — not just the surface stack trace.",
+    desc: "Root cause - not just the surface stack trace.",
   },
   {
     icon: Lightbulb,
@@ -26,7 +26,7 @@ const pillars = [
   },
   {
     icon: Shield,
-    title: "Learn & prevent",
+    title: "Learn and prevent",
     desc: "Turn every error into a lasting engineering lesson.",
   },
 ];
@@ -34,8 +34,15 @@ const pillars = [
 const steps = [
   { n: "01", title: "Paste Error", desc: "Drop a stack trace, message, or snippet." },
   { n: "02", title: "Atlas analyzes", desc: "Deterministic parse + deep explanation." },
-  { n: "03", title: "Understand", desc: "Animated error anatomy & root cause." },
-  { n: "04", title: "Fix & Learn", desc: "Apply the fix. Lock in the lesson." },
+  { n: "03", title: "Understand", desc: "Animated error anatomy and root cause." },
+  { n: "04", title: "Fix and Learn", desc: "Apply the fix. Lock in the lesson." },
+];
+
+const anatomyNodes = [
+  { label: "expects Array", color: "bg-lime text-obsidian" },
+  { label: "received undefined", color: "bg-violet text-obsidian" },
+  { label: "data was not ready", color: "bg-cobalt text-white" },
+  { label: "TypeError", color: "bg-coral text-white" },
 ];
 
 export default function LandingPage() {
@@ -45,7 +52,6 @@ export default function LandingPage() {
       <div className="pointer-events-none absolute -top-32 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-cobalt/20 blur-[120px]" />
       <div className="pointer-events-none absolute top-40 right-0 h-[320px] w-[320px] rounded-full bg-violet/15 blur-[100px]" />
 
-      {/* Hero */}
       <section className="relative mx-auto grid max-w-7xl gap-12 px-6 pb-24 pt-16 lg:grid-cols-2 lg:items-center lg:pt-24">
         <div className="space-y-8">
           <div className="inline-flex items-center gap-2 rounded-full border border-obsidian-border bg-obsidian-light/80 px-3 py-1 text-xs font-medium text-fog light-mode:border-paper-border light-mode:bg-paper-card">
@@ -93,7 +99,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Interactive preview card */}
         <div className="relative">
           <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-cobalt/30 via-violet/20 to-coral/20 blur-2xl" />
           <div className="relative overflow-hidden rounded-2xl border border-obsidian-border bg-obsidian-light/90 p-6 shadow-2xl backdrop-blur light-mode:border-paper-border light-mode:bg-paper-card">
@@ -109,7 +114,7 @@ export default function LandingPage() {
             <div className="rounded-xl border border-obsidian-border bg-obsidian p-4 font-mono text-sm light-mode:border-paper-border light-mode:bg-white">
               <p className="text-coral">TypeError</p>
               <p className="mt-2 text-fog">Cannot read properties of undefined</p>
-              <p className="text-paper/80 light-mode:text-ink">(reading &apos;map&apos;)</p>
+              <p className="text-paper/80 light-mode:text-ink">(reading map)</p>
             </div>
 
             <div className="mt-5 flex items-center justify-between gap-3">
@@ -132,20 +137,14 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Mini anatomy strip */}
             <div className="mt-6 flex items-center justify-between gap-1 overflow-x-auto pb-1">
-              {[
-                { label: "expects Array", color: "bg-lime text-obsidian" },
-                { label: "received undefined", color: "bg-violet text-obsidian" },
-                { label: "data wasn't ready", color: "bg-cobalt text-white" },
-                { label: "TypeError", color: "bg-coral text-white" },
-              ].map((node, i, arr) => (
+              {anatomyNodes.map((node, i) => (
                 <div key={node.label} className="flex items-center gap-1">
-                  <span className={\ounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap \\}>
+                  <span className={"rounded-full px-2.5 py-1 text-[10px] font-semibold whitespace-nowrap " + node.color}>
                     {node.label}
                   </span>
-                  {i < arr.length - 1 && (
-                    <span className="text-fog/50 text-xs">?</span>
+                  {i < anatomyNodes.length - 1 && (
+                    <span className="text-fog/50 text-xs">-&gt;</span>
                   )}
                 </div>
               ))}
@@ -154,7 +153,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How it works */}
       <section className="relative border-t border-obsidian-border bg-obsidian-light/50 py-20 light-mode:border-paper-border light-mode:bg-paper-dark/30">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 max-w-2xl">
@@ -183,14 +181,13 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="relative py-24">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-paper light-mode:text-obsidian md:text-4xl">
             Stop googling the same stack trace.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-fog">
-            Build a personal map of every failure you&apos;ve conquered — and never repeat the same blind fix twice.
+            Build a personal map of every failure you have conquered - and never repeat the same blind fix twice.
           </p>
           <Link
             href="/investigate"

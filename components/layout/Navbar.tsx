@@ -39,7 +39,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-obsidian-border/80 bg-obsidian/80 backdrop-blur-xl light-mode:border-paper-border light-mode:bg-paper/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cobalt to-violet text-white shadow-lg shadow-cobalt/20">
             <Mountain className="h-4 w-4" strokeWidth={2.5} />
           </div>

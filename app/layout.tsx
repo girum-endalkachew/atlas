@@ -15,7 +15,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Atlas — Developer Error Atlas",
+  title: "Atlas - Developer Error Atlas",
   description:
     "Understand the error. Fix the cause. Remember the lesson. Atlas turns cryptic developer errors into clear explanations, real solutions, and lasting lessons.",
 };
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={\\ \ min-h-screen font-sans antialiased flex flex-col bg-obsidian text-paper light-mode:bg-paper light-mode:text-obsidian\}
+        className={[inter.variable, jetbrains.variable, "min-h-screen font-sans antialiased flex flex-col bg-obsidian text-paper light-mode:bg-paper light-mode:text-obsidian"].join(" ")}
       >
         <Navbar />
         <main className="flex-1">{children}</main>
