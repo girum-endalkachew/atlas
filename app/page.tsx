@@ -1,18 +1,24 @@
 import Hero from "@/components/landing/Hero";
-import HowItWorks from "@/components/landing/HowItWorks";
-import InvestigationExperience from "@/components/landing/InvestigationExperience";
-import ExploreAtlas from "@/components/landing/ExploreAtlas";
-import LearnGrow from "@/components/landing/LearnGrow";
+import Confusion from "@/components/landing/Confusion";
+import Transformation from "@/components/landing/Transformation";
+import ErrorAnatomy from "@/components/landing/ErrorAnatomy";
+import AtlasNetwork from "@/components/landing/AtlasNetwork";
+import Knowledge from "@/components/landing/Knowledge";
+import DebuggingMemory from "@/components/landing/DebuggingMemory";
+import Philosophy from "@/components/landing/Philosophy";
 import FinalCTA from "@/components/landing/FinalCTA";
 
 export default function LandingPage() {
   return (
     <>
       <Hero />
-      <HowItWorks />
-      <InvestigationExperience />
-      <ExploreAtlas />
-      <LearnGrow />
+      <Confusion />
+      <Transformation />
+      <ErrorAnatomy />
+      <AtlasNetwork />
+      <Knowledge />
+      <DebuggingMemory />
+      <Philosophy />
       <FinalCTA />
     </>
   );

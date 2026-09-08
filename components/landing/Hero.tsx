@@ -1,162 +1,174 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
-import { ArrowRight, Brain, Crosshair, Lightbulb, Shield } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
-const pillars = [
-  { icon: Brain, label: "Understand what happened" },
-  { icon: Crosshair, label: "Find the real cause" },
-  { icon: Lightbulb, label: "Get the right fix" },
-  { icon: Shield, label: "Learn & prevent" },
-];
+const forward = ["DATA", "users", "undefined", ".map()", "ERROR"];
+const backward = ["ERROR", ".map()", "undefined", "users", "DATA"];
 
-const anatomy = [
-  { label: "expects Array", cls: "bg-[#C8F56A] text-[#101114]" },
-  { label: "received undefined", cls: "bg-[#A99BFF] text-[#101114]" },
-  { label: "data was not ready", cls: "bg-[#4969FF] text-white" },
-  { label: "TypeError", cls: "bg-[#FF5C5C] text-white" },
-];
+type Phase = "forward" | "trace" | "resolved";
 
 export default function Hero() {
+  const [phase, setPhase] = useState<Phase>("forward");
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setStep((s) => {
+        if (phase === "forward" && s < forward.length - 1) return s + 1;
+        if (phase === "forward" && s === forward.length - 1) {
+          setTimeout(() => { setPhase("trace"); setStep(0); }, 900);
+          return s;
+        }
+        if (phase === "trace" && s < backward.length - 1) return s + 1;
+        if (phase === "trace" && s === backward.length - 1) {
+          setTimeout(() => { setPhase("resolved"); }, 900);
+          return s;
+        }
+        return s;
+      });
+    }, 550);
+    return () => clearInterval(t);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "resolved") return;
+    const t = setTimeout(() => { setPhase("forward"); setStep(0); }, 2600);
+    return () => clearTimeout(t);
+  }, [phase]);
+
+  const sequence = phase === "trace" ? backward : forward;
+
   return (
-    <section className="relative overflow-hidden bg-[#0B0C10]">
-      {/* Grid + glow backdrop */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:36px_36px]" />
-      <div className="pointer-events-none absolute -top-40 left-1/3 h-[520px] w-[720px] rounded-full bg-[radial-gradient(circle,#4969FF,transparent_60%)] opacity-30 blur-3xl" />
-      <div className="pointer-events-none absolute top-20 right-0 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,#A99BFF,transparent_60%)] opacity-25 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,#FF5C5C,transparent_60%)] opacity-20 blur-3xl" />
+    <section className="relative isolate overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 grid-lines grid-mask opacity-70" />
+      <div className="pointer-events-none absolute -top-40 left-1/4 h-[560px] w-[820px] rounded-full bg-[radial-gradient(circle,rgba(85,114,255,0.18),transparent_60%)] blur-3xl" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pt-16 pb-24 lg:grid-cols-[1.05fr_1fr]">
+      <div className="relative mx-auto grid min-h-[92vh] max-w-[1200px] items-center gap-14 px-6 pt-32 pb-24 lg:grid-cols-[1fr_1fr]">
         {/* LEFT */}
-        <div className="relative z-10 space-y-8">
-          <h1 className="text-5xl font-bold leading-[1.02] tracking-tight text-white md:text-6xl lg:text-[4.25rem]">
-            <span className="text-[#FF5C5C]">Errors</span> are
-            <br />
-            trying to tell
-            <br />
-            you something.
-          </h1>
-
-          <p className="max-w-md text-base leading-relaxed text-white/55 md:text-lg">
-            Atlas turns cryptic developer errors into clear explanations, real solutions, and lasting lessons.
+        <div className="relative z-10">
+          <p className="mono text-[10.5px] font-semibold uppercase tracking-[0.28em] text-white/45">
+            Developer Error Atlas ? <span className="text-white/70">v1.0</span>
           </p>
 
-          <div>
+          <h1 className="mt-6 text-[46px] font-semibold leading-[1.02] tracking-[-0.02em] text-white sm:text-[60px] lg:text-[76px]">
+            Errors are not
+            <br />
+            the end of the{" "}
+            <span className="bg-gradient-to-r from-[#5572FF] to-[#8B6CFF] bg-clip-text text-transparent">
+              story.
+            </span>
+          </h1>
+
+          <p className="mt-7 max-w-md text-[15px] leading-relaxed text-white/60">
+            Atlas follows the failure back to its cause ? and explains what it means.
+          </p>
+
+          <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
               href="/investigate"
-              className="inline-flex items-center gap-2 rounded-full bg-[#A99BFF] px-7 py-3.5 text-sm font-semibold text-[#0B0C10] shadow-[0_0_40px_-10px_rgba(169,155,255,0.6)] transition hover:brightness-110"
+              className="group mono inline-flex items-center gap-2 rounded-sm bg-white px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#08090D] transition hover:bg-white/90"
             >
               Start Investigating
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
             </Link>
-          </div>
-
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-2 sm:grid-cols-4">
-            {pillars.map((p) => (
-              <div key={p.label} className="flex items-start gap-2">
-                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/5 text-white/80">
-                  <p.icon className="h-3.5 w-3.5" />
-                </div>
-                <span className="text-xs font-medium leading-snug text-white/65">
-                  {p.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* RIGHT - Blended orb + floating cards + live preview */}
-        <div className="relative mx-auto flex w-full max-w-xl items-center justify-center lg:h-[560px]">
-          {/* Blended globe (no card frame, uses mix-blend) */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="absolute h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(73,105,255,0.35),transparent_60%)] blur-3xl" />
-            <Image
-              src="/hero.jpg"
-              alt=""
-              width={720}
-              height={720}
-              priority
-              aria-hidden
-              className="pointer-events-none relative h-auto w-[520px] max-w-none select-none opacity-90 mix-blend-screen"
-            />
-          </div>
-
-          {/* Floating TypeError card */}
-          <div className="absolute left-4 top-6 w-64 rotate-[-4deg] rounded-2xl border border-[#FF5C5C]/40 bg-[#12141A]/90 p-4 shadow-2xl backdrop-blur">
-            <p className="text-sm font-bold text-[#FF5C5C]">TypeError</p>
-            <p className="mt-2 font-mono text-[11px] leading-snug text-white/75">
-              Cannot read properties
-              <br />
-              of undefined
-              <br />
-              (reading &apos;map&apos;)
-            </p>
-          </div>
-
-          {/* Floating ReferenceError card */}
-          <div className="absolute right-2 top-16 w-56 rotate-[6deg] rounded-2xl border border-[#A99BFF]/40 bg-[#12141A]/90 p-3 shadow-xl backdrop-blur">
-            <p className="text-xs font-bold text-[#A99BFF]">ReferenceError</p>
-            <p className="mt-1.5 font-mono text-[10px] leading-snug text-white/60">
-              user is not defined
-            </p>
-          </div>
-
-          {/* Floating SyntaxError card */}
-          <div className="absolute bottom-8 left-8 w-52 rotate-[3deg] rounded-2xl border border-[#4969FF]/40 bg-[#12141A]/90 p-3 shadow-xl backdrop-blur">
-            <p className="text-xs font-bold text-[#4969FF]">SyntaxError</p>
-            <p className="mt-1.5 font-mono text-[10px] leading-snug text-white/60">
-              Unexpected token &apos;)&apos;
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* LIVE PREVIEW */}
-      <div className="relative mx-auto max-w-3xl px-6 pb-20">
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0F1116]/90 p-6 shadow-2xl backdrop-blur">
-          <div className="mb-5 flex items-center justify-between">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">
-              Live preview
-            </span>
-            <span className="rounded-full bg-[#FF5C5C]/15 px-2.5 py-0.5 text-[10px] font-semibold text-[#FF5C5C]">
-              TypeError
-            </span>
-          </div>
-
-          <div className="rounded-xl border border-white/10 bg-[#07080B] p-4 font-mono text-sm">
-            <p className="text-[#FF5C5C]">TypeError</p>
-            <p className="mt-2 text-white/70">Cannot read properties of undefined</p>
-            <p className="text-white/85">(reading map)</p>
-          </div>
-
-          <div className="mt-5 flex items-center justify-between gap-3">
-            <div className="flex -space-x-2">
-              {["JS", "R", "N"].map((t) => (
-                <span
-                  key={t}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-[#0B0C10] text-[10px] font-bold text-white/70"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
             <Link
-              href="/investigate"
-              className="inline-flex items-center gap-2 rounded-full bg-[#4969FF] px-4 py-2 text-xs font-semibold text-white hover:brightness-110"
+              href="/atlas"
+              className="mono inline-flex items-center gap-2 rounded-sm border border-white/15 bg-white/[0.02] px-5 py-3 text-[12px] font-medium uppercase tracking-[0.12em] text-white/80 transition hover:bg-white/[0.05]"
             >
-              Investigate
-              <ArrowRight className="h-3.5 w-3.5" />
+              Explore the Atlas
             </Link>
           </div>
 
-          <div className="mt-6 flex items-center justify-between gap-2 overflow-x-auto pb-1">
-            {anatomy.map((n, i) => (
-              <div key={n.label} className="flex items-center gap-2">
-                <span className={"rounded-full px-3 py-1 text-[11px] font-semibold whitespace-nowrap " + n.cls}>
-                  {n.label}
+          <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-2 mono text-[10.5px] uppercase tracking-[0.16em] text-white/40 sm:grid-cols-3">
+            <p><span className="text-white/70">Trace</span> 0042</p>
+            <p><span className="text-white/70">Stack</span> JS ? React</p>
+            <p><span className="text-white/70">Env</span> Runtime</p>
+            <p><span className="text-white/70">Signals</span> 5</p>
+            <p><span className="text-[#B8F36A]">Root</span> Found</p>
+            <p><span className="text-white/70">Latency</span> 240ms</p>
+          </div>
+        </div>
+
+        {/* RIGHT ? ERROR CASCADE */}
+        <div className="relative z-10 mx-auto w-full max-w-[520px]">
+          {/* Error card */}
+          <div className="rounded-sm border border-[#FF5C63]/30 bg-[#0D0F14]/80 backdrop-blur-sm">
+            <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5">
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FF5C63]" />
+                <span className="mono text-[10.5px] uppercase tracking-[0.16em] text-white/50">
+                  Runtime ? Uncaught
                 </span>
-                {i < anatomy.length - 1 && <span className="text-white/30 text-xs">?</span>}
               </div>
-            ))}
+              <span className="mono text-[10.5px] text-white/40">0042</span>
+            </div>
+            <div className="p-5 mono">
+              <p className="text-[13px] font-semibold text-[#FF5C63]">TypeError</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-white/80">
+                Cannot read properties of undefined
+              </p>
+              <p className="text-[13px] text-white/60">(reading &apos;map&apos;)</p>
+            </div>
+          </div>
+
+          {/* Cascade */}
+          <div className="relative mt-6 rounded-sm border border-white/[0.08] bg-[#0D0F14]/70 p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <span className="mono text-[10.5px] uppercase tracking-[0.18em] text-white/45">
+                {phase === "forward" && "Cascade ? Forward"}
+                {phase === "trace" && "Cascade ? Tracing"}
+                {phase === "resolved" && <span className="text-[#B8F36A]">Cascade ? Root Cause Found</span>}
+              </span>
+              <span className="mono text-[10.5px] text-white/40">
+                {phase === "resolved" ? "5 / 5" : (step + 1) + " / 5"}
+              </span>
+            </div>
+
+            {phase !== "resolved" ? (
+              <div className="relative">
+                {/* traveling glow */}
+                <div className="pointer-events-none absolute left-1/2 top-0 h-full w-px bg-white/[0.06]">
+                  <span className="signal-dot absolute left-1/2 top-0 block h-6 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#5572FF] to-transparent" />
+                </div>
+
+                <ul className="relative space-y-3">
+                  {sequence.map((node, i) => {
+                    const active = i <= step;
+                    const isError = node === "ERROR";
+                    return (
+                      <li key={i} className="flex justify-center">
+                        <div
+                          className={
+                            "mono w-56 rounded-sm border px-4 py-2.5 text-center text-[12.5px] transition-all duration-500 " +
+                            (isError && active
+                              ? "border-[#FF5C63]/60 bg-[#FF5C63]/10 text-[#FF5C63] shadow-[0_0_30px_-8px_rgba(255,92,99,0.6)]"
+                              : active
+                              ? "border-white/25 bg-white/[0.03] text-white"
+                              : "border-white/[0.08] bg-transparent text-white/25")
+                          }
+                        >
+                          {node}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ) : (
+              <div className="py-10 text-center rise">
+                <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-[#B8F36A]">
+                  Root Cause
+                </p>
+                <p className="mt-3 text-[22px] font-semibold text-white">
+                  users <span className="text-white/50">was</span> undefined.
+                </p>
+                <p className="mt-2 mono text-[12px] text-white/45">
+                  Async data had not resolved when render occurred.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
