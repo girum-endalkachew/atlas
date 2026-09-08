@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -13,16 +14,26 @@ export const metadata: Metadata = {
     "Understand the error. Fix the cause. Remember the lesson. Atlas turns cryptic developer errors into clear explanations, real solutions, and lasting lessons.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+const themeScript = `
+try {
+  var t = localStorage.getItem('atlas_theme') || 'dark';
+  var c = document.documentElement.classList;
+  c.toggle('light', t === 'light');
+  c.toggle('dark', t !== 'light');
+} catch (e) {}
+`;
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <Script id="atlas-theme" strategy="beforeInteractive">{themeScript}</Script>
+      </head>
       <body
         className={[
           inter.variable,
           jetbrains.variable,
-          "min-h-screen font-sans antialiased flex flex-col bg-[#08090D] text-[#F5F5F7]",
+          "min-h-screen font-sans antialiased flex flex-col",
         ].join(" ")}
       >
         <Navbar />

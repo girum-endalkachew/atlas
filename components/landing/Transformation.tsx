@@ -1,133 +1,36 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 const stages = [
-  {
-    key: "ERROR",
-    title: "Symptom appears",
-    content: (
-      <div className="mono">
-        <p className="text-[13px] font-semibold text-[#FF5C63]">TypeError</p>
-        <p className="mt-2 text-[13px] text-white/75">Cannot read properties of undefined</p>
-      </div>
-    ),
-  },
-  {
-    key: "TRACE",
-    title: "Follow the signal",
-    content: (
-      <div className="mono text-[13px] text-white/75">
-        <p>data.users</p>
-        <p className="text-white/35">      ?</p>
-        <p className="text-[#FF5C63]">undefined</p>
-      </div>
-    ),
-  },
-  {
-    key: "CAUSE",
-    title: "Identify the source",
-    content: (
-      <div className="mono">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-white/40">Root cause</p>
-        <p className="mt-2 text-[13px] text-white">ASYNC DATA ? NOT READY</p>
-      </div>
-    ),
-  },
-  {
-    key: "FIX",
-    title: "Apply the resolution",
-    content: (
-      <pre className="mono text-[12px] leading-relaxed text-[#B8F36A]">{`const users = data?.users ?? [];
-return users.map(...);`}</pre>
-    ),
-  },
-  {
-    key: "LEARN",
-    title: "Absorb the concept",
-    content: (
-      <div className="mono">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-white/40">Concept</p>
-        <p className="mt-2 text-[13px] text-white">Asynchronous data flow</p>
-      </div>
-    ),
-  },
+  { key: "ERROR",   title: "Symptom appears",    body: <p className="mono text-[13px]"><span className="text-[color:var(--color-danger)]">TypeError</span>  Cannot read properties of undefined</p> },
+  { key: "TRACE",   title: "Follow the signal",  body: <p className="mono text-[13px]">data.users <span className="text-[color:var(--color-muted)]">?</span> undefined</p> },
+  { key: "CAUSE",   title: "Identify the source",body: <p className="mono text-[13px]"><span className="text-[color:var(--color-gold)]">ROOT CAUSE</span>  ASYNC DATA ? NOT READY</p> },
+  { key: "FIX",     title: "Apply the fix",      body: <pre className="mono text-[12px] leading-relaxed">{`const users = data?.users ?? [];\nreturn users.map(...);`}</pre> },
+  { key: "LEARN",   title: "Absorb the concept", body: <p className="mono text-[13px]">Asynchronous data flow</p> },
 ];
 
 export default function Transformation() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % stages.length), 2600);
-    return () => clearInterval(t);
-  }, []);
-
   return (
-    <section className="relative border-t border-white/[0.06] bg-[#0B0D13] px-6 py-32">
-      <div className="pointer-events-none absolute inset-0 grid-lines opacity-20" />
-      <div className="relative mx-auto max-w-[1200px]">
-        <div className="mb-16 max-w-2xl">
-          <p className="mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-white/40">
+    <section className="relative hairline-t bg-[color:var(--color-surface)] px-6 py-28">
+      <div className="mx-auto max-w-[1200px]">
+        <div className="mb-14 max-w-2xl">
+          <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">
             The transformation
           </p>
-          <h2 className="mt-4 text-[32px] font-semibold leading-[1.1] tracking-[-0.02em] text-white sm:text-[48px]">
+          <h2 className="mt-4 text-[32px] font-semibold leading-[1.08] tracking-[-0.02em] sm:text-[46px]">
             Watch an error become understandable.
           </h2>
         </div>
 
-        {/* Timeline */}
-        <ol className="relative grid grid-cols-5 gap-2">
-          <span className="pointer-events-none absolute left-0 right-0 top-4 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
-          {stages.map((s, idx) => {
-            const active = idx === i;
-            const done = idx < i;
-            return (
-              <li key={s.key} className="relative flex flex-col items-start">
-                <span
-                  className={
-                    "relative z-10 flex h-8 w-8 items-center justify-center rounded-full border text-[11px] mono transition " +
-                    (active
-                      ? "border-[#5572FF] bg-[#5572FF]/15 text-white glow-blue"
-                      : done
-                      ? "border-[#B8F36A]/60 bg-[#B8F36A]/10 text-[#B8F36A]"
-                      : "border-white/15 bg-[#0B0D13] text-white/45")
-                  }
-                >
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-                <p
-                  className={
-                    "mt-3 mono text-[11px] uppercase tracking-[0.16em] transition " +
-                    (active ? "text-white" : "text-white/40")
-                  }
-                >
-                  {s.key}
-                </p>
-              </li>
-            );
-          })}
+        <ol className="grid grid-cols-5 gap-3">
+          {stages.map((s, i) => (
+            <li key={s.key} className="atlas-panel p-4 sm:p-5">
+              <div className="flex items-center justify-between">
+                <span className="mono text-[10.5px] tracking-[0.18em] text-[color:var(--color-muted)]">{String(i + 1).padStart(2, "0")}</span>
+                <span className={"chip " + (i === 2 ? "chip-gold" : i === 3 ? "chip-sky" : "")}>{s.key}</span>
+              </div>
+              <p className="mt-4 text-[13px] font-medium">{s.title}</p>
+              <div className="mt-3 atlas-inset p-3">{s.body}</div>
+            </li>
+          ))}
         </ol>
-
-        {/* Stage panel */}
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.4fr]">
-          <div className="gradient-border rounded-2xl">
-            <div className="glass rounded-2xl p-6">
-              <p className="mono text-[10.5px] uppercase tracking-[0.2em] text-white/40">
-                Stage {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-3 text-[26px] font-semibold tracking-tight text-white">
-                {stages[i].title}
-              </h3>
-              <p className="mt-3 text-[13px] text-white/55">
-                Atlas transforms the same error through five states until the developer arrives at understanding.
-              </p>
-            </div>
-          </div>
-          <div key={i} className="rise gradient-border rounded-2xl">
-            <div className="glass min-h-[180px] rounded-2xl p-6 flex items-center">
-              <div className="w-full">{stages[i].content}</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

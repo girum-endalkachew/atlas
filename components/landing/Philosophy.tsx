@@ -1,25 +1,16 @@
 export default function Philosophy() {
   return (
-    <section className="relative overflow-hidden border-t border-white/[0.06] bg-[#08090D] px-6 py-40">
-      <div className="pointer-events-none absolute inset-0 grid-lines opacity-40" />
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[560px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(85,114,255,0.14),transparent_60%)] blur-3xl" />
-
-      <div className="relative mx-auto max-w-[1000px] space-y-10 text-center">
-        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-white/40 sm:text-[64px]">
-          Don&apos;t just patch it.
+    <section className="relative hairline-t bg-[color:var(--color-canvas)] px-6 py-36">
+      <div className="pointer-events-none absolute inset-0 topo opacity-40" />
+      <div className="relative mx-auto max-w-[1000px] space-y-8 text-center">
+        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-[color:var(--color-muted)] sm:text-[60px]">Don&apos;t just patch it.</p>
+        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-[color:var(--color-text)]/70 sm:text-[60px]">Trace it.</p>
+        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-[color:var(--color-text)] sm:text-[60px]">Understand it.</p>
+        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] sm:text-[60px]">
+          <span className="text-[color:var(--color-gold)]">Remember it.</span>
         </p>
-        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-white/60 sm:text-[64px]">
-          Trace it.
-        </p>
-        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-white/85 sm:text-[64px]">
-          Understand it.
-        </p>
-        <p className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] text-white sm:text-[64px]">
-          Remember it.
-        </p>
-
-        <div className="pt-8">
-          <span className="mono text-[11px] tracking-[0.36em] text-white/45">? ATLAS ?</span>
+        <div className="pt-6">
+          <span className="mono text-[11px] tracking-[0.36em] text-[color:var(--color-muted)]">? ATLAS ?</span>
         </div>
       </div>
     </section>

@@ -1,102 +1,34 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { storage } from "@/lib/storage";
-import type { UserHistoryItem } from "@/types/atlas";
-import { formatRelativeTime } from "@/lib/utils";
+const entries = [
+  { type: "TypeError",      snippet: "Cannot read properties of undefined (reading 'map')", stack: "NEXT.JS",   when: "8m ago"     },
+  { type: "HydrationError", snippet: "Text content does not match server-rendered HTML",    stack: "REACT",     when: "Yesterday" },
+  { type: "ReferenceError", snippet: "user is not defined",                                 stack: "JAVASCRIPT",when: "3 days ago" },
+];
 
 export default function HistoryPage() {
-  const [items, setItems] = useState<UserHistoryItem[]>([]);
-
-  useEffect(() => {
-    setItems(storage.getHistory());
-  }, []);
-
-  const clear = () => {
-    storage.clearHistory();
-    setItems([]);
-  };
-
   return (
-    <div className="relative mx-auto max-w-[1000px] px-6 pb-24 pt-24">
-      <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="mono text-[10.5px] uppercase tracking-[0.24em] text-white/40">
-            Debugging memory
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">History</h1>
-          <p className="mt-2 text-sm text-white/50">
-            Every investigation becomes part of your technical journal.
-          </p>
-        </div>
-        {items.length > 0 && (
-          <button
-            type="button"
-            onClick={clear}
-            className="mono text-[10.5px] uppercase tracking-[0.14em] text-white/40 hover:text-[#FF5C63]"
-          >
-            Clear history
-          </button>
-        )}
-      </div>
+    <div className="relative">
+      <div className="pointer-events-none absolute inset-0 topo opacity-40" />
+      <div className="relative mx-auto max-w-[1000px] px-6 pb-24 pt-24">
+        <p className="mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--color-muted)]">Atlas / Debugging memory</p>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Errors you have already understood.</h1>
+        <p className="mt-2 max-w-xl text-[14px] text-[color:var(--color-muted)]">Your journal builds itself as you investigate.</p>
 
-      {items.length === 0 ? (
-        <div className="glass rounded-2xl p-10 text-center">
-          <p className="text-white/70">No investigations yet.</p>
-          <Link
-            href="/investigate"
-            className="mono mt-4 inline-flex text-[11px] uppercase tracking-[0.14em] text-[#5572FF]"
-          >
-            Start investigating ?
-          </Link>
+        <div className="atlas-surface mt-10 overflow-hidden">
+          {entries.map((e, i) => (
+            <article key={i} className={"grid grid-cols-[auto_1fr_auto] items-start gap-x-8 gap-y-1 px-6 py-6 " + (i < entries.length - 1 ? "hairline-b" : "")}>
+              <div className="min-w-[140px]">
+                <p className="mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--color-muted)]">{e.stack}</p>
+                <p className="mono mt-2 text-[10.5px] text-[color:var(--color-muted)]">{e.when}</p>
+              </div>
+              <div>
+                <p className="mono text-[11px] tracking-[0.14em] text-[color:var(--color-danger)]">? {e.type.toUpperCase()}</p>
+                <p className="mono mt-2 text-[15px]">{e.snippet}</p>
+              </div>
+              <div><span className="chip chip-gold">? Understood</span></div>
+            </article>
+          ))}
         </div>
-      ) : (
-        <div className="gradient-border rounded-2xl">
-          <div className="glass overflow-hidden rounded-2xl">
-            {items.map((it, i) => (
-              <article
-                key={it.id}
-                className={
-                  "grid gap-2 px-6 py-6 sm:grid-cols-[140px_1fr_160px] " +
-                  (i < items.length - 1 ? "border-b border-white/[0.06]" : "")
-                }
-              >
-                <div>
-                  <p className="mono text-[10.5px] uppercase tracking-[0.14em] text-white/40">
-                    {it.framework}
-                  </p>
-                  <p className="mono mt-1 text-[10.5px] text-white/35">
-                    {formatRelativeTime(it.timestamp)}
-                  </p>
-                </div>
-                <div>
-                  <p className="mono text-[11px] tracking-[0.12em] text-[#FF5C63]">
-                    ? {it.errorType.toUpperCase()}
-                  </p>
-                  <p className="mt-2 line-clamp-2 font-mono text-[14px] text-white">
-                    {it.message}
-                  </p>
-                  <p className="mt-2 text-[12.5px] text-white/50">
-                    Concept: <span className="text-white/80">{it.learnedConcept}</span>
-                  </p>
-                </div>
-                <div className="sm:text-right">
-                  <p className="mono text-[10.5px] uppercase tracking-[0.14em] text-[#B8F36A]">
-                    Understood
-                  </p>
-                  <Link
-                    href="/investigate"
-                    className="mono mt-2 inline-block text-[10.5px] uppercase tracking-[0.12em] text-white/40 hover:text-white"
-                  >
-                    Investigate again
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
