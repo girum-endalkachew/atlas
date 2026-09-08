@@ -15,7 +15,8 @@ const tones: Record<string, string> = {
 export default function ErrorAnatomy() {
   return (
     <section className="relative border-t border-white/[0.06] bg-[#08090D] px-6 py-32">
-      <div className="mx-auto max-w-[1200px]">
+      <div className="pointer-events-none absolute inset-0 grid-lines opacity-25" />
+      <div className="relative mx-auto max-w-[1200px]">
         <div className="mb-16 max-w-2xl">
           <p className="mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-white/40">
             Error anatomy
@@ -28,16 +29,15 @@ export default function ErrorAnatomy() {
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start">
-          {/* Vertical diagram */}
-          <div className="relative mx-auto w-full max-w-[280px]">
+        <div className="grid gap-8 lg:grid-cols-[300px_1fr] lg:items-start">
+          <div className="relative mx-auto w-full max-w-[300px]">
             <div className="pointer-events-none absolute left-1/2 top-6 h-[calc(100%-3rem)] w-px bg-white/[0.08]">
-              <span className="travel absolute left-1/2 -translate-x-1/2 block h-16 w-px bg-gradient-to-b from-transparent via-[#5572FF] to-transparent" />
+              <span className="travel absolute left-1/2 -translate-x-1/2 block h-16 w-px bg-gradient-to-b from-transparent via-[#8B6CFF] to-transparent" />
             </div>
             <ul className="relative space-y-4">
               {parts.map((p) => (
                 <li key={p.key} className="flex justify-center">
-                  <div className={"mono w-full rounded-sm border bg-[#0D0F14] px-4 py-3 text-center text-[12px] tracking-[0.14em] " + tones[p.tone]}>
+                  <div className={"mono glass-soft w-full rounded-xl border px-4 py-3 text-center text-[12px] tracking-[0.14em] " + tones[p.tone]}>
                     {p.key}
                   </div>
                 </li>
@@ -45,10 +45,12 @@ export default function ErrorAnatomy() {
             </ul>
           </div>
 
-          {/* Details column */}
-          <ol className="space-y-3">
+          <ol className="space-y-2">
             {parts.map((p, i) => (
-              <li key={p.key} className="grid grid-cols-[auto_auto_1fr] items-center gap-4 border-b border-white/[0.05] px-2 py-4 last:border-b-0">
+              <li
+                key={p.key}
+                className="glass-hover glass-soft grid grid-cols-[auto_auto_1fr] items-center gap-4 rounded-xl px-4 py-4"
+              >
                 <span className="mono text-[11px] text-white/35">{String(i + 1).padStart(2, "0")}</span>
                 <span className={"mono text-[11px] tracking-[0.16em] " + tones[p.tone].split(" ")[1]}>{p.key}</span>
                 <p className="text-[13.5px] text-white/70">{p.detail}</p>

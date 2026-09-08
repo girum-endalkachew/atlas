@@ -56,15 +56,15 @@ return users.map(...);`}</pre>
 
 export default function Transformation() {
   const [i, setI] = useState(0);
-
   useEffect(() => {
     const t = setInterval(() => setI((v) => (v + 1) % stages.length), 2600);
     return () => clearInterval(t);
   }, []);
 
   return (
-    <section className="relative border-t border-white/[0.06] bg-[#0D0F14] px-6 py-32">
-      <div className="mx-auto max-w-[1200px]">
+    <section className="relative border-t border-white/[0.06] bg-[#0B0D13] px-6 py-32">
+      <div className="pointer-events-none absolute inset-0 grid-lines opacity-20" />
+      <div className="relative mx-auto max-w-[1200px]">
         <div className="mb-16 max-w-2xl">
           <p className="mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-white/40">
             The transformation
@@ -76,7 +76,7 @@ export default function Transformation() {
 
         {/* Timeline */}
         <ol className="relative grid grid-cols-5 gap-2">
-          <span className="pointer-events-none absolute left-0 right-0 top-4 h-px bg-white/[0.08]" />
+          <span className="pointer-events-none absolute left-0 right-0 top-4 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
           {stages.map((s, idx) => {
             const active = idx === i;
             const done = idx < i;
@@ -86,10 +86,10 @@ export default function Transformation() {
                   className={
                     "relative z-10 flex h-8 w-8 items-center justify-center rounded-full border text-[11px] mono transition " +
                     (active
-                      ? "border-[#5572FF] bg-[#5572FF]/10 text-white"
+                      ? "border-[#5572FF] bg-[#5572FF]/15 text-white glow-blue"
                       : done
                       ? "border-[#B8F36A]/60 bg-[#B8F36A]/10 text-[#B8F36A]"
-                      : "border-white/15 bg-[#08090D] text-white/45")
+                      : "border-white/15 bg-[#0B0D13] text-white/45")
                   }
                 >
                   {String(idx + 1).padStart(2, "0")}
@@ -109,19 +109,23 @@ export default function Transformation() {
 
         {/* Stage panel */}
         <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.4fr]">
-          <div className="rounded-sm border border-white/[0.08] bg-[#08090D] p-6">
-            <p className="mono text-[10.5px] uppercase tracking-[0.2em] text-white/40">
-              Stage {String(i + 1).padStart(2, "0")}
-            </p>
-            <h3 className="mt-3 text-[26px] font-semibold tracking-tight text-white">
-              {stages[i].title}
-            </h3>
-            <p className="mt-3 text-[13px] text-white/55">
-              Atlas transforms the same error through five states until the developer arrives at understanding.
-            </p>
+          <div className="gradient-border rounded-2xl">
+            <div className="glass rounded-2xl p-6">
+              <p className="mono text-[10.5px] uppercase tracking-[0.2em] text-white/40">
+                Stage {String(i + 1).padStart(2, "0")}
+              </p>
+              <h3 className="mt-3 text-[26px] font-semibold tracking-tight text-white">
+                {stages[i].title}
+              </h3>
+              <p className="mt-3 text-[13px] text-white/55">
+                Atlas transforms the same error through five states until the developer arrives at understanding.
+              </p>
+            </div>
           </div>
-          <div key={i} className="rise rounded-sm border border-white/[0.08] bg-[#08090D] p-6 min-h-[180px] flex items-center">
-            <div className="w-full">{stages[i].content}</div>
+          <div key={i} className="rise gradient-border rounded-2xl">
+            <div className="glass min-h-[180px] rounded-2xl p-6 flex items-center">
+              <div className="w-full">{stages[i].content}</div>
+            </div>
           </div>
         </div>
       </div>

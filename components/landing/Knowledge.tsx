@@ -1,8 +1,8 @@
 export default function Knowledge() {
   return (
     <section className="relative border-t border-white/[0.06] bg-[#08090D] px-6 py-32">
-      <div className="pointer-events-none absolute inset-0 grid-lines opacity-25" />
-      <div className="relative mx-auto max-w-[1000px] space-y-14">
+      <div className="pointer-events-none absolute inset-0 grid-lines opacity-20" />
+      <div className="relative mx-auto max-w-[1100px] space-y-14">
         <p className="mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-white/40">
           Knowledge
         </p>
@@ -31,14 +31,16 @@ export default function Knowledge() {
 
 function Progression({ id, state, tone, label }: { id: string; state: string; tone: string; label: string }) {
   return (
-    <div className="rounded-sm border border-white/[0.08] bg-[#0D0F14] p-5">
-      <p className="mono text-[10.5px] uppercase tracking-[0.18em] text-white/40">
-        Error #{id}
-      </p>
-      <p className={"mono mt-3 text-[11.5px] font-semibold tracking-[0.16em] " + tone}>
-        ? {state}
-      </p>
-      <p className="mt-3 text-[13px] text-white/65">{label}</p>
+    <div className="glass-hover gradient-border rounded-2xl">
+      <div className="glass rounded-2xl p-5">
+        <p className="mono text-[10.5px] uppercase tracking-[0.18em] text-white/40">
+          Error #{id}
+        </p>
+        <p className={"mono mt-3 text-[11.5px] font-semibold tracking-[0.16em] " + tone}>
+          ? {state}
+        </p>
+        <p className="mt-3 text-[13px] text-white/70">{label}</p>
+      </div>
     </div>
   );
 }
