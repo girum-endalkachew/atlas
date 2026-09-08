@@ -1,26 +1,65 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #101114;
+  --text-primary: #F5F1E8;
+  --border-color: #262930;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.light-mode {
+  --bg-primary: #F5F1E8;
+  --text-primary: #101114;
+  --border-color: #E2D9C8;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Custom Grid Pattern Background */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.light-mode .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(16, 17, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 17, 20, 0.04) 1px, transparent 1px);
+}
+
+/* Glow effects */
+.glow-cobalt {
+  box-shadow: 0 0 25px -5px rgba(73, 105, 255, 0.3);
+}
+
+.glow-coral {
+  box-shadow: 0 0 25px -5px rgba(255, 92, 92, 0.3);
+}
+
+.glow-lime {
+  box-shadow: 0 0 25px -5px rgba(200, 245, 106, 0.3);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #262930;
+  border-radius: 9999px;
+}
+.light-mode ::-webkit-scrollbar-thumb {
+  background: #D4D3CC;
 }
